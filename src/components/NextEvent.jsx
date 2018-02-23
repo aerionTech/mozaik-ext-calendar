@@ -17,7 +17,17 @@ function formatEventTimerange(event) {
     if (diff < 0) {
       return `Ends ${end.fromNow()}`;
     } else {
-      return `${start.calendar()} - ${end.format('LT')}`;
+      let startFormatted;
+      if (start.isSame(end, 'day')) {
+        startFormatted = start.format('LT');
+      }
+      else {
+        startFormatted = start.format('LT DD/MM/YYYY ');
+      }
+
+      let endFormatted = end.format('LT DD/MM/YYYY');
+
+      return `${startFormatted} - ${endFormatted}`;
     }
   }
   else {
