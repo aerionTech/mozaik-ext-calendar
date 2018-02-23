@@ -21,7 +21,8 @@ const client = mozaik => {
 
   var almanac = new Almanac({
     serviceEmail: config.get('calendar.googleServiceEmail'),
-    serviceKey: fs.readFileSync(keyPath).toString()
+    serviceKey: fs.readFileSync(keyPath).toString(),
+    subjectEmail: config.get('calendar.googleSubjectEmail'),
   });
 
   const apiCalls = {

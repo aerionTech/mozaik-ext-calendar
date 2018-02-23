@@ -21,6 +21,10 @@ class Almanac {
         'https://www.googleapis.com/auth/calendar.readonly'
       ]
     );
+
+    if (opts.subjectEmail) {
+      this.jwtClient.subject = opts.subjectEmail;
+    }
   }
 
   authorize() {
