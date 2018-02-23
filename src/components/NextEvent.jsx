@@ -8,15 +8,20 @@ import Mozaik from 'mozaik/browser';
 
 
 function formatEventTimerange(event) {
-  var start, end, now, diff;
-  start = moment(event.start);
-  end = moment(event.end);
-  now = moment();
-  diff = start.diff(now);
-  if (diff < 0) {
-    return `Ends ${end.fromNow()}`;
-  } else {
-    return `${start.calendar()} - ${end.format('LT')}`;
+  if (event.start && event.end) {
+    var start, end, now, diff;
+    start = moment(event.start);
+    end = moment(event.end);
+    now = moment();
+    diff = start.diff(now);
+    if (diff < 0) {
+      return `Ends ${end.fromNow()}`;
+    } else {
+      return `${start.calendar()} - ${end.format('LT')}`;
+    }
+  }
+  else {
+    return "";
   }
 };
 

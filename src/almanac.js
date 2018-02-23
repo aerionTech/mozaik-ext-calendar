@@ -60,35 +60,55 @@ class Almanac {
         timeMax: moment().add(opts.duration, 'days').format(),
         auth: self.jwtClient
       }, (err, response) => {
-        if (err) {
-          reject(err);
-        }
-
         if (!response) {
           console.warn(`Calendar ${opts.calendar.id} cannot be read. Check settings`);
-          return reject(new Error('Failed to read calendar'));
-        }
-
-        if (!response.items || response.items.length === 0) {
-          console.warn('No items found with calendarId:', opts.calendar.id);
-          console.log('Response', response);
-          return resolve([]);
-        }
-
-        events = response.items.map((event) => {
-          return {
-            title: event.summary,
-            body: event.description,
+          console.log('Error', err);
+          events = [{
+            title: "",
+            body: "Failed to read calendar.",
             calendar: {
               id: opts.calendar.id,
-              name: response.summary,
-              title: opts.calendar.title || response.summary
+              name: "",
+              title: opts.calendar.title
             },
-            location: event.location,
-            start: moment(event.start.dateTime).valueOf(),
-            end: moment(event.end.dateTime).valueOf()
-          };
-        });
+            location: "",
+            start: "",
+            end: ""
+          }];
+        }
+        else if (!response.items || response.items.length === 0) {
+          console.warn('No items found with calendarId:', opts.calendar.id);
+          console.log('Response', response);
+          events = [{
+            title: "",
+            body: "No upcoming events.",
+            calendar: {
+              id: opts.calendar.id,
+              name: "",
+              title: opts.calendar.title
+            },
+            location: "",
+            start: "",
+            end: ""
+          }];
+        }
+        else 
+        {
+          events = response.items.map((event) => {
+            return {
+              title: event.summary,
+              body: event.description,
+              calendar: {
+                id: opts.calendar.id,
+                name: response.summary,
+                title: opts.calendar.title || response.summary
+              },
+              location: event.location,
+              start: moment(event.start.dateTime).valueOf(),
+              end: moment(event.end.dateTime).valueOf()
+            };
+          });
+        }
 
         resolve(events);
       });
