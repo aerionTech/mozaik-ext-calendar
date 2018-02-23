@@ -28,7 +28,7 @@ Follow the steps to install and configure widget into dashboard
   npm install mozaik-ext-calendar
   ```
 
-- Register client api by adding to dashboard `app.js`:
+- Register client api by adding to dashboard `server.js`:
 
   ```javascript
   import calendar from 'mozaik-ext-calendar/client';
@@ -39,7 +39,9 @@ Follow the steps to install and configure widget into dashboard
 
   ```javascript
   import calendar from 'mozaik-ext-calendar';
-  mozaik.addBatch('calendar', calendar);
+  Mozaik.Registry.addExtensions({
+    calendar
+  });
   ```
 
 - Build the dashboard:
@@ -61,10 +63,11 @@ Follow the steps to install and configure widget into dashboard
       calendar: {
         googleServiceEmail: process.env.GOOGLE_SERVICE_EMAIL,
         googleServiceKeypath: process.env.GOOGLE_SERVICE_KEYPATH
+        googleSubjectEmail: process.env.GOOGLE_SUBJECT_EMAIL
       }
     }
     ```
-
+- Note: GOOGLE_SUBJECT_EMAIL is optional and used for impersonating another user to get resource calendars working.
 - Share the calendar(s) and collect id(s)
 
   - Login to Google Calendar
